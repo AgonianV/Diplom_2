@@ -9,7 +9,7 @@ class TestUserDataChange:
 
     def test_user_change_email_with_auth(self, user_data_with_delete_user):
         payload = {
-            "email": f'{user_data_with_delete_user["email"]}test',
+            "email": f'{user_data_with_delete_user["email"]}test'
         }
         headers = {"Authorization": user_data_with_delete_user["token"]}
         response = requests.patch(Urls.url_user_change_data, headers=headers, json=payload)
