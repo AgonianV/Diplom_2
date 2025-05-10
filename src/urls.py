@@ -19,6 +19,7 @@ class Urls:
     url_user_create = f"{base_url}{Api.user_create}"
     url_user_delete = f"{base_url}{Api.user_get_data}"
     url_user_login = f"{base_url}{Api.user_login}"
+    url_user_change_data = f"{base_url}{Api.user_get_data}"
     url_user_get_data = f"{base_url}{Api.user_get_data}"
     url_user_logout = f"{base_url}{Api.user_logout}"
     url_refresh_token = f"{base_url}{Api.refresh_token}"

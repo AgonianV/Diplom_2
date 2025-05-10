@@ -11,8 +11,8 @@ fake = Faker('ru_RU')
 def delete_user(email, token):
     payload = {"email": email}
     headers = {"Authorization": token}
-    response = requests.delete(Urls.url_user_delete, headers=headers, json=payload)
-    return response
+    requests.delete(Urls.url_user_delete, headers=headers, json=payload)
+
 
 @allure.step('Генерация строки')
 def generate_random_string(length):
@@ -24,45 +24,45 @@ def generate_random_string(length):
 def generate_user_data():
     email = generate_random_string(10)
     password = generate_random_string(10)
-    username = generate_random_string(10)
+    name = generate_random_string(10)
 
     return {
             "email": f"{email}@yandex.ru",
             "password": password,
-            "name": username
+            "name": name
             }
 
 
 # метод регистрации нового курьера возвращает список из логина и пароля
 # если регистрация не удалась, возвращает пустой список
-@allure.step('метод регистрации нового курьера')
-def register_new_courier_and_return_login_password():
+@allure.step('метод регистрации нового пользователя')
+def register_new_user_and_return_login_password():
     # метод генерирует строку, состоящую только из букв нижнего регистра, в качестве параметра передаём длину строки
 
     # создаём список, чтобы метод мог его вернуть
     login_pass = []
 
     # генерируем логин, пароль и имя курьера
-    login = generate_random_string(10)
+    email = generate_random_string(10)
     password = generate_random_string(10)
-    first_name = generate_random_string(10)
+    name = generate_random_string(10)
 
     # собираем тело запроса
     payload = {
-        "login": login,
+        "email": f"{email}@yandex.ru",
         "password": password,
-        "firstName": first_name
+        "name": name
     }
 
     # отправляем запрос на регистрацию курьера и сохраняем ответ в переменную response
-    response = requests.post(Urls.url_order_create, data=payload)
-
-    # если регистрация прошла успешно (код ответа 201), добавляем в список логин и пароль курьера
-    if response.status_code == 201:
-        login_pass.append(login)
+    response = requests.post(Urls.url_user_create, data=payload)
+    response_data = response.json()
+    # если регистрация прошла успешно (код ответа 200), добавляем в список логин и пароль юзера
+    if response.status_code == 200:
+        login_pass.append(email)
         login_pass.append(password)
-        login_pass.append(first_name)
-
+        login_pass.append(name)
+        login_pass.append(response_data["accessToken"])
     # возвращаем список
     return login_pass
 
