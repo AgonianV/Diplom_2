@@ -2,10 +2,7 @@ import random
 import requests
 import string
 from src.urls import Urls
-from faker import Faker
 import allure
-
-fake = Faker('ru_RU')
 
 @allure.step('Удаление юзера')
 def delete_user(email, token):
@@ -65,18 +62,3 @@ def register_new_user_and_return_login_password():
         login_pass.append(response_data["accessToken"])
     # возвращаем список
     return login_pass
-
-@allure.step('Загрузка данных заказа')
-def order_data():
-    payload_order = {
-        "firstName": fake.first_name_male(),
-        "lastName": fake.last_name_male(),
-        "address": "Санкт-Петербург, Невский проспект 24",
-        "metroStation": 2,
-        "phone": "+7 921 335 39 13 ",
-        "rentTime": 5,
-        "deliveryDate": str(fake.future_date()),
-        "comment": "Добрый вечер",
-        "color": ["BLACK"]
-    }
-    return payload_order

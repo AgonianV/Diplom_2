@@ -6,7 +6,7 @@ from src.messages import *
 from src.data import *
 
 class TestUserDataChange:
-
+    @allure.title("Изменение почты авторизованному пользователю")
     def test_user_change_email_with_auth(self, user_data_with_delete_user):
         payload = {
             "email": f'{user_data_with_delete_user["email"]}test'
@@ -16,7 +16,7 @@ class TestUserDataChange:
         assert response.status_code == 200
         assert response.json()["user"]["email"] == payload["email"]
 
-
+    @allure.title("Изменение пароля авторизованному пользователю")
     def test_user_change_password_with_auth(self, user_data_with_delete_user):
         payload = {
             "email": user_data_with_delete_user["email"],
@@ -28,6 +28,7 @@ class TestUserDataChange:
         assert response.status_code == 200
         assert requests.post(Urls.url_user_login, json=payload).status_code == 200
 
+    @allure.title("Изменение имени авторизованному пользователю")
     def test_user_change_name_with_auth(self, user_data_with_delete_user):
         payload = {
             "email": user_data_with_delete_user["email"],
@@ -39,6 +40,7 @@ class TestUserDataChange:
         assert response.status_code == 200
         assert requests.post(Urls.url_user_login, json=payload).status_code == 200
 
+    @allure.title("Изменение почты неавторизованному пользователю")
     def test_user_change_email_without_auth(self, user_data_with_delete_user):
         payload = {
             "email": f'{user_data_with_delete_user["email"]}test',
@@ -48,6 +50,7 @@ class TestUserDataChange:
         assert response.status_code == 401
         assert response.json()["message"] == no_auth
 
+    @allure.title("Изменение пароля неавторизованному пользователю")
     def test_user_change_password_without_auth(self, user_data_with_delete_user):
         payload = {
             "email": user_data_with_delete_user["email"],
@@ -58,6 +61,7 @@ class TestUserDataChange:
         assert response.status_code == 401
         assert response.json()["message"] == no_auth
 
+    @allure.title("Изменение имени неавторизованному пользователю")
     def test_user_change_name_without_auth(self, user_data_with_delete_user):
         payload = {
             "email": user_data_with_delete_user["email"],

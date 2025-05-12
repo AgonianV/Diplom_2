@@ -1,7 +1,7 @@
 
 import allure
 import requests
-from conftest import user_data_new_with_delete, user_data_with_delete_user
+from conftest import user_data_new_with_delete, user_data_with_delete_user, user_data_new
 from src.urls import Urls
 from src.messages import *
 from src.data import *
@@ -27,7 +27,7 @@ class TestUserCreate:
         assert response.status_code == 403
         assert response.json()["message"] == user_already_exists
 
-    @allure.title("Создание без без обязательного поля") # ответ на запрос не соответствует документации
+    @allure.title("Создание без обязательного поля пароль")
     def test_create_user_password_is_empty(self, user_data_new):
         user_data_new.pop("password")
         response = requests.post(Urls.url_user_create, json=user_data_new)

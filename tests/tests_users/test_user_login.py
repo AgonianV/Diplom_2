@@ -8,6 +8,7 @@ from src.data import *
 
 class TestUserlogin:
 
+    @allure.title("Авторизация польльзователя после регистрации")
     def test_user_login_after_registration(self, user_data_with_delete_user):
         payload = {
             "email": user_data_with_delete_user["email"],
@@ -18,7 +19,7 @@ class TestUserlogin:
         assert response.status_code == 200
         assert response.json()["success"] == True
 
-
+    @allure.title("Авторизация с некорректной почтой")
     def test_user_login_with_invalid_email(self, user_data_with_delete_user):
         payload = {
             "email": f'{user_data_with_delete_user["email"]}com',
@@ -30,7 +31,7 @@ class TestUserlogin:
         assert response.status_code == 401
         assert response.json()["message"] == incorrect_fields
 
-
+    @allure.title("Авторизация с некорректным паролем")
     def test_user_login_with_invalid_password(self, user_data_with_delete_user):
         payload = {
             "email": user_data_with_delete_user["email"],

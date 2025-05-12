@@ -11,8 +11,10 @@ def user_data_new_with_delete():
     yield response
     response_data = response.json()
     delete_user(response_data["user"]["email"], response_data["accessToken"])
-
-
+@pytest.fixture
+def user_data_new():
+    payload = generate_user_data()
+    yield payload
 
 @pytest.fixture
 def user_data_with_delete_user():
