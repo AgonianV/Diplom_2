@@ -1,16 +1,8 @@
 import pytest
-from src.data import *
+from src.api.user_api import *
+from src.generator.user_data_generator import generate_user_data
 
 
-
-@pytest.fixture
-def user_data_new_with_delete():
-    payload = generate_user_data()
-
-    response = requests.post(Urls.url_user_create, json=payload)
-    yield response
-    response_data = response.json()
-    delete_user(response_data["user"]["email"], response_data["accessToken"])
 @pytest.fixture
 def user_data_new():
     payload = generate_user_data()

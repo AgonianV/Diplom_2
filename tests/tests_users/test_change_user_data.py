@@ -3,7 +3,7 @@ import requests
 from conftest import user_data_with_delete_user
 from src.urls import Urls
 from src.messages import *
-from src.data import *
+
 
 class TestUserDataChange:
     @allure.title("Изменение почты авторизованному пользователю")

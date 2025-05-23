@@ -1,17 +1,26 @@
 
 import allure
 import requests
-from conftest import user_data_new_with_delete, user_data_with_delete_user, user_data_new
+from conftest import user_data_with_delete_user, user_data_new
 from src.urls import Urls
 from src.messages import *
-from src.data import *
+from src.generator.user_data_generator import *
+from src.api.user_api import *
 
 class TestUserCreate:
 
     @allure.title('Cоздание уникального юзера')
-    def test_create_new_user(self, user_data_new_with_delete):
+    def test_create_new_user(self):
+        payload = {
+            "email": generate_user_data()["email"],
+            "password": generate_user_data()["password"],
+            "name": generate_user_data()["name"]
+        }
+        response = requests.post(Urls.url_user_create, json=payload)
 
-        assert user_data_new_with_delete.status_code == 200
+        assert response.status_code == 200
+        response_data = response.json()
+        delete_user(response_data["user"]["email"], response_data["accessToken"])
 
 
 
